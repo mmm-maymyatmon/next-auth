@@ -23,7 +23,7 @@ const UserButton = ({ user }: UserButtonProps) => {
         </Button>
       ) : (
         <Button asChild variant="secondary">
-          <Link href={"/api/auth/signin"} className="flex items-center">
+          <Link href={"/auth/login"} className="flex items-center">
             <LogIn className="mr-2" size={16} /> Sign In
           </Link>
         </Button>
