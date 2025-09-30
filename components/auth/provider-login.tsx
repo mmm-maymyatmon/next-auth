@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 
 const ProviderLogin = () => {
   return (
-    <div className="w-full flex flex-col gap-2">
+    <div className="w-full flex flex-col gap-4">
       <Button
         type="button"
         variant="outline"
