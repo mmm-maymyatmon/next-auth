@@ -26,7 +26,7 @@ const AuthForm = ({
 }: AuthFormProps) => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
-      <Card className="w-full max-w-md shadow-lg rounded-2xl">
+      <Card className="w-full shadow-lg rounded-2xl">
         <CardHeader>
           <CardTitle className="text-center text-xl font-bold">
             {formTitle}

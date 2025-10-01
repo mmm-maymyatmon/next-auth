@@ -30,7 +30,8 @@ const Login = () => {
       footerHref="/auth/register"
     >
       <Form {...form}>
-        <div>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div>
           <FormField name="email" control={form.control} render={({field}) => (<FormItem>
             <FormLabel>
               Email
@@ -45,7 +46,7 @@ const Login = () => {
               Password
             </FormLabel>
             <FormControl>
-              <Input placeholder="********" {...field} />
+              <Input type="password" placeholder="********" {...field} />
             </FormControl>
             <FormMessage/>
           </FormItem>)} />
@@ -59,6 +60,7 @@ const Login = () => {
               </div>
         </div>
         <Button className="w-full">Login</Button>
+        </form>
      </Form>
     </AuthForm>
   );
