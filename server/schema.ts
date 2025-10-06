@@ -6,24 +6,26 @@ import {
   integer,
   pgEnum,
   boolean,
-} from "drizzle-orm/pg-core"
-import type { AdapterAccount } from "@auth/core/adapters"
+} from "drizzle-orm/pg-core";
+import type { AdapterAccount } from "@auth/core/adapters";
+import { createId } from "@paralleldrive/cuid2";
+import { email } from "zod";
 
-export const RoleEnum = pgEnum("roles", ["user", "admin"])
- 
+export const RoleEnum = pgEnum("roles", ["user", "admin"]);
+
 export const users = pgTable("user", {
   id: text("id")
     .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+    .$defaultFn(() => createId()),
   name: text("name"),
   email: text("email").unique(),
+  password: text("password"),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   isTwoFactorEnabled: boolean("isTwoFactorEnabled").default(false),
-  role: RoleEnum("roles").default("user")
+  role: RoleEnum("roles").default("user"),
+});
 
-})
- 
 export const accounts = pgTable(
   "account",
   {
@@ -48,4 +50,19 @@ export const accounts = pgTable(
       }),
     },
   ]
-)
+);
+
+export const emailVerificationToken = pgTable(
+  "emailVerificationToken",
+  {
+    id: text("id")
+      .notNull()
+      .$defaultFn(() => createId()),
+    token: text("token").notNull(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+    email: text("email").notNull(),
+  },
+  (vt) => ({
+    compoundKey: primaryKey({ columns: [vt.id, vt.token] }),
+  })
+);
