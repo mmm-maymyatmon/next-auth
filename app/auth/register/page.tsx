@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { register } from "@/server/actions/register-action";
+import { toast } from "sonner";
 
 const Register = () => {
   const form = useForm({
@@ -23,7 +24,19 @@ const Register = () => {
     }
   })
 
-  const { execute, status, result } = useAction(register);
+  const { execute, status, result } = useAction(register, {
+    onSuccess: ({data}) => {
+      toast.success(data?.success, {
+        action: {
+          label: 'Open Gmail',
+          onClick: () => {
+            window.open("https://mail.google.com", "_blank");
+          }
+        }
+      });
+      form.reset();
+    }
+  });
 
   const onSubmit = (values: z.infer<typeof registerSchema>) => {
     const { name, email, password } = values;
