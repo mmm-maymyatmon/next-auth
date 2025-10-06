@@ -2,6 +2,7 @@
 import AuthForm from "@/components/auth/auth-form";
 import React from "react";
 import { useForm } from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { loginSchema } from "@/types/login-schema";
@@ -9,6 +10,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { useAction } from "next-safe-action/hooks";
+import { login } from "@/server/actions/login-action";
 
 const Login = () => {
   const form = useForm({
@@ -19,8 +23,11 @@ const Login = () => {
     }
   })
 
+  const { execute, status, result } = useAction(login);
+
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    console.log(values)
+    const { email, password } = values;
+    execute({ email, password });
   }
   return (
     <AuthForm
@@ -59,7 +66,7 @@ const Login = () => {
                 </Link>
               </div>
         </div>
-        <Button className="w-full">Login</Button>
+        <Button className={cn("w-full bg-primary", status ==="executing" && "animate-pulse")}>Login</Button>
         </form>
      </Form>
     </AuthForm>

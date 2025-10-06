@@ -1,6 +1,7 @@
 "use client";
 import AuthForm from "@/components/auth/auth-form";
 import React from "react";
+import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -9,6 +10,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { register } from "@/server/actions/register-action";
 
 const Register = () => {
   const form = useForm({
@@ -20,8 +23,11 @@ const Register = () => {
     }
   })
 
+  const { execute, status, result } = useAction(register);
+
   const onSubmit = (values: z.infer<typeof registerSchema>) => {
-    console.log(values)
+    const { name, email, password } = values;
+    execute({ name, email, password });
   }
   return (
     <AuthForm
@@ -69,7 +75,7 @@ const Register = () => {
                 </Link>
               </div>
         </div>
-        <Button type="submit" className="w-full">Register</Button>
+        <Button type="submit" className={cn("w-full bg-primary", status === "executing" && "animate-pulse")}>Register</Button>
         </form>
         
      </Form>
