@@ -40,7 +40,6 @@ export const register = actionClient
       password: hashedPassword,
     });
 
-    //generate verification token for email expires in 30 minutes
     const verificationToken = await generateEmailVerificationToken(email);
     
      await sendEmail(
@@ -48,7 +47,6 @@ export const register = actionClient
           verificationToken[0].token,
           name.slice(0, 5)
         );
-    //create user
-    //send verification email
+   
     return { success: "Email verification sent" };
   });
