@@ -66,7 +66,7 @@ const Login = () => {
                 </Link>
               </div>
         </div>
-        <Button className={cn("w-full bg-primary", status ==="executing" && "animate-pulse")}>Login</Button>
+        <Button className={cn("w-full bg-primary", status ==="executing" && "animate-pulse")} disabled={status === "executing"}>Login</Button>
         </form>
      </Form>
     </AuthForm>
